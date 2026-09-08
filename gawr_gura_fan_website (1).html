@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gawr Gura — The Great White Shark of Atlantis | Fan Website</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ocean: {
+                            950: '#030712',
+                            900: '#050b18',
+                            800: '#0a1733',
+                            700: '#0f234d',
+                            600: '#183672',
+                            500: '#1e489c',
+                            400: '#2d68c4',
+                            300: '#5294e2',
+                            200: '#8bbbf5',
+                            100: '#cbe2fc',
+                            50: '#f0f7ff'
+                        },
+                        gura: {
+                            cyan: '#00f2fe',
+                            turquoise: '#4facfe',
+                            accent: '#ff6b8b',
+                            gold: '#ffd166',
+                            glass: 'rgba(10, 23, 51, 0.65)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                        display: ['Fredoka', 'Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- External Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-ocean-950 text-slate-100 font-sans selection:bg-gura-cyan selection:text-ocean-950 overflow-x-hidden relative min-h-screen">
+
+    <!-- MULTI-LAYERED BACKGROUND SYSTEM (FIXED & POINTER-EVENTS NONE) -->
+    <div id="layered-bg-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <!-- LAYER 1 — GURA PHOTO BACKGROUND -->
+        <div class="bg-layer-photo"></div>
+
+        <!-- LAYER 2 — DARK OCEAN OVERLAY -->
+        <div class="bg-layer-overlay"></div>
+
+        <!-- LAYER 3 — DYNAMIC OCEAN ATMOSPHERE -->
+        <div class="bg-layer-atmosphere">
+            <div class="ambient-glow-1"></div>
+            <div class="ambient-glow-2"></div>
+            <div class="caustics-light-rays"></div>
+        </div>
+
+        <!-- LAYER 4 — FLOATING BUBBLES / PARTICLES CANVAS -->
+        <canvas id="ocean-canvas" class="absolute inset-0 w-full h-full opacity-70 pointer-events-none"></canvas>
+
+        <!-- LAYER 4.5 — RANDOM GURA DOODLE STICKER SYSTEM -->
+        <div id="doodle-container" class="fixed inset-0 pointer-events-none z-[5] overflow-hidden" aria-hidden="true"></div>
+    </div>
+
+    <!-- LAYER 5 — WEBSITE CONTENT (Z-INDEX 10+) -->
+
+    <!-- STICKY NAVBAR -->
+    <nav class="sticky top-0 z-50 w-full glass-panel border-b border-cyan-500/20 transition-all duration-300" id="main-navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#home" class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center font-display text-white font-bold text-xl shadow-lg shadow-cyan-500/30 group-hover:scale-105 transition-transform">
+                        a
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-display font-bold text-xl tracking-wider text-white group-hover:text-gura-cyan transition-colors">
+                            GAWR GURA
+                        </span>
+                        <span class="text-[10px] text-cyan-300/70 tracking-widest uppercase">Fan Website</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden lg:flex items-center space-x-1 xl:space-x-2 text-xs xl:text-sm font-medium">
+                    <a href="#home" class="px-3 py-2 rounded-lg text-slate-300 hover:text-gura-cyan hover:bg-white/5 transition">HOME</a>
+                    <a href="#who-is-gura" class="px-3 py-2 rounded-lg text-slate-300 hover:text-gura-cyan hover:bg-white/5 transition">WHO IS GURA?</a>
+                    <a href="#her-story" class="px-3 py-2 rounded-lg text-slate-300 hover:text-gura-cyan hover:bg-white/5 transition">HER STORY</a>
+                    <a href="#guras-world" class="px-3 py-2 rounded-lg text-slate-300 hover:text-gura-cyan hover:bg-white/5 transition">FAVORITES</a>
+                    <a href="#why-gura" class="px-3 py-2 rounded-lg text-slate-300 hover:text-gura-cyan hover:bg-white/5 transition">WHY GURA?</a>
+                    <a href="#gallery" class="px-3 py-2 rounded-lg text-slate-300 hover:text-gura-cyan hover:bg-white/5 transition">GALLERY</a>
+                    <a href="#music" class="px-3 py-2 rounded-lg text-slate-300 hover:text-gura-cyan hover:bg-white/5 transition">MUSIC</a>
+                    <a href="#fun-facts" class="px-3 py-2 rounded-lg text-slate-300 hover:text-gura-cyan hover:bg-white/5 transition">FUN FACTS</a>
+                    <a href="#a-message" class="ml-2 px-4 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold hover:shadow-lg hover:shadow-cyan-500/25 hover:scale-105 transition">A MESSAGE</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden">
+                    <button id="mobile-menu-btn" type="button" class="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 focus:outline-none" aria-label="Toggle Navigation Menu">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-menu" class="hidden lg:hidden glass-panel border-t border-cyan-500/10 px-4 pt-2 pb-6 space-y-2">
+            <a href="#home" class="mobile-nav-link block px-3 py-2 rounded-md text-slate-200 hover:text-gura-cyan hover:bg-white/5">HOME</a>
+            <a href="#who-is-gura" class="mobile-nav-link block px-3 py-2 rounded-md text-slate-200 hover:text-gura-cyan hover:bg-white/5">WHO IS GURA?</a>
+            <a href="#her-story" class="mobile-nav-link block px-3 py-2 rounded-md text-slate-200 hover:text-gura-cyan hover:bg-white/5">HER STORY</a>
+            <a href="#guras-world" class="mobile-nav-link block px-3 py-2 rounded-md text-slate-200 hover:text-gura-cyan hover:bg-white/5">FAVORITES</a>
+            <a href="#why-gura" class="mobile-nav-link block px-3 py-2 rounded-md text-slate-200 hover:text-gura-cyan hover:bg-white/5">WHY GURA?</a>
+            <a href="#gallery" class="mobile-nav-link block px-3 py-2 rounded-md text-slate-200 hover:text-gura-cyan hover:bg-white/5">GALLERY</a>
+            <a href="#music" class="mobile-nav-link block px-3 py-2 rounded-md text-slate-200 hover:text-gura-cyan hover:bg-white/5">MUSIC</a>
+            <a href="#fun-facts" class="mobile-nav-link block px-3 py-2 rounded-md text-slate-200 hover:text-gura-cyan hover:bg-white/5">FUN FACTS</a>
+            <a href="#a-message" class="mobile-nav-link block px-3 py-2 rounded-md text-gura-cyan font-bold hover:bg-white/5">A MESSAGE</a>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: HERO SECTION -->
+    <section id="home" class="relative z-10 min-h-[calc(100vh-80px)] flex items-center justify-center py-20 px-4">
+        <div class="max-w-6xl mx-auto text-center space-y-8">
+            <!-- Badge -->
+            <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full glass-card border border-cyan-400/30 text-gura-cyan text-xs sm:text-sm font-semibold tracking-wider uppercase animate-pulse">
+                <i class="fa-solid fa-fish-fins text-gura-cyan"></i>
+                <span>HOLOLIVE ENGLISH • MYTH</span>
+            </div>
+
+            <!-- Big Main Title -->
+            <div class="space-y-2">
+                <h1 class="text-5xl sm:text-7xl md:text-8xl font-display font-extrabold tracking-tight text-white drop-shadow-xl">
+                    GAWR <span class="text-gradient">GURA</span>
+                </h1>
+                <p class="text-lg sm:text-2xl font-medium text-cyan-200/90 font-display tracking-wide">
+                    "The Great White Shark of Atlantis"
+                </p>
+            </div>
+
+            <!-- Short Description -->
+            <p class="max-w-2xl mx-auto text-slate-200/90 text-sm sm:text-base leading-relaxed drop-shadow">
+                Selamat datang di tribute website Gawr Gura! Di sini kita merayakan keceriaan, talenta musik, kelakuan kocak, dan momen tak terlupakan dari sang hiu Atlantis favorit jutaan Chumbuds di seluruh dunia.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <a href="#her-story" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 text-white font-bold shadow-lg shadow-cyan-500/30 hover:scale-105 hover:shadow-cyan-500/50 transition-all duration-300 flex items-center justify-center space-x-2">
+                    <span>Dive Into Her Story</span>
+                    <i class="fa-solid fa-arrow-down text-sm"></i>
+                </a>
+                <a href="#who-is-gura" class="w-full sm:w-auto px-8 py-4 rounded-full glass-panel hover:bg-white/10 text-cyan-200 hover:text-white font-semibold border border-cyan-400/30 transition-all duration-300 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-user-ninja"></i>
+                    <span>Meet Gura</span>
+                </a>
+            </div>
+
+            <!-- Decorative Shark Graphic Elements -->
+            <div class="pt-12 flex justify-center items-center space-x-8 text-cyan-400/50 text-2xl animate-float">
+                <i class="fa-solid fa-water"></i>
+                <span class="font-display font-bold text-3xl tracking-widest text-cyan-300/70">a</span>
+                <i class="fa-solid fa-anchor"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: WHO IS GURA? -->
+    <section id="who-is-gura" class="relative z-10 py-24 px-4 max-w-7xl mx-auto">
+        <div class="text-center mb-16 space-y-3">
+            <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+                WHO IS <span class="text-gradient">GURA?</span>
+            </h2>
+            <p class="text-cyan-200/80 text-sm sm:text-base max-w-xl mx-auto">
+                Profil & Informasi Singkat Mengenai sang VTuber Hiu legendaris dari Hololive EN.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <!-- Avatar Illustration Card -->
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="relative group max-w-sm w-full">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-3xl blur opacity-40 group-hover:opacity-75 transition duration-500"></div>
+                    <div class="relative glass-panel rounded-3xl p-6 text-center space-y-6 overflow-hidden">
+                        <!-- Myth Avatar Image Box -->
+                        <div class="w-48 h-48 mx-auto rounded-2xl bg-gradient-to-b from-cyan-500/20 to-blue-900/60 flex items-center justify-center border border-cyan-400/30 shadow-inner relative overflow-hidden group-hover:scale-105 transition duration-300">
+                            <!-- Silakan ganti atribut src di bawah ini dengan gambar avatar pilihanmu -->
+                            <img src="assets/img/avatar.jpg" alt="Gawr Gura Myth Avatar" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/400x400/0a1733/00f2fe?text=Gura+Avatar'">
+                            <span class="absolute bottom-2 right-2 px-2 py-1 bg-cyan-950/80 rounded text-[10px] text-cyan-200 border border-cyan-400/30">Myth Avatar</span>
+                        </div>
+                        <div>
+                            <h3 class="font-display font-bold text-2xl text-white">Gawr Gura</h3>
+                            <p class="text-gura-cyan text-sm font-medium">がうる・ぐら</p>
+                        </div>
+                        <div class="pt-2 flex justify-center gap-2">
+                            <span class="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs border border-cyan-500/30">Apex Predator</span>
+                            <span class="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs border border-cyan-500/30">Atlantian</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Info Grid -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="glass-panel p-6 sm:p-8 rounded-3xl space-y-6">
+                    <h3 class="text-xl sm:text-2xl font-display font-bold text-white border-b border-cyan-500/20 pb-4 flex items-center gap-3">
+                        <i class="fa-solid fa-address-card text-gura-cyan"></i>
+                        <span>Identity Card</span>
+                    </h3>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="glass-card p-4 rounded-2xl flex items-center space-x-4">
+                            <div class="p-3 bg-cyan-500/20 rounded-xl text-gura-cyan">
+                                <i class="fa-solid fa-user text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase tracking-wider">Name</p>
+                                <p class="font-semibold text-white">Gawr Gura</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4 rounded-2xl flex items-center space-x-4">
+                            <div class="p-3 bg-cyan-500/20 rounded-xl text-gura-cyan">
+                                <i class="fa-solid fa-fish text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase tracking-wider">Species</p>
+                                <p class="font-semibold text-white">Shark (Atlantis)</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4 rounded-2xl flex items-center space-x-4">
+                            <div class="p-3 bg-cyan-500/20 rounded-xl text-gura-cyan">
+                                <i class="fa-solid fa-building-user text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase tracking-wider">Affiliation</p>
+                                <p class="font-semibold text-white">Hololive English -Myth-</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4 rounded-2xl flex items-center space-x-4">
+                            <div class="p-3 bg-cyan-500/20 rounded-xl text-gura-cyan">
+                                <i class="fa-solid fa-calendar-check text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase tracking-wider">Debut Date</p>
+                                <p class="font-semibold text-white">September 13, 2020</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4 rounded-2xl flex items-center space-x-4">
+                            <div class="p-3 bg-cyan-500/20 rounded-xl text-gura-cyan">
+                                <i class="fa-solid fa-heart text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase tracking-wider">Fanbase</p>
+                                <p class="font-semibold text-white">Chumbuds</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4 rounded-2xl flex items-center space-x-4">
+                            <div class="p-3 bg-cyan-500/20 rounded-xl text-gura-cyan">
+                                <i class="fa-solid fa-quote-left text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 uppercase tracking-wider">Signature Catchphrase</p>
+                                <p class="font-bold text-gura-cyan text-lg">"a"</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Short Bio Paragraph -->
+                    <div class="pt-4 text-slate-200 text-sm leading-relaxed border-t border-cyan-500/20">
+                        <p>
+                            Gawr Gura adalah VTuber asal Atlantis yang datang ke daratan karena Atlantis dirasa "membosankan". Berada di bawah naungan Hololive English cabang -Myth-, ia terkenal dengan kepribadiannya yang menyenangkan, suara bernyanyi yang merdu, gameplay yang seru, serta kemampuan luar biasa untuk menghibur jutaan penggemar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: HER STORY -->
+    <section id="her-story" class="relative z-10 py-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16 space-y-3">
+                <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+                    HER <span class="text-gradient">STORY</span>
+                </h2>
+                <p class="text-cyan-200/80 text-sm sm:text-base max-w-xl mx-auto">
+                    Milestone penting perjalanan karier Gawr Gura sebagai VTuber terpopuler.
+                </p>
+            </div>
+
+            <!-- Vertical Timeline -->
+            <div class="relative border-l-2 border-cyan-500/40 ml-4 sm:ml-32 space-y-12">
+                
+                <!-- Timeline Item 1 -->
+                <div class="relative pl-8 sm:pl-10 group">
+                    <div class="absolute -left-[17px] top-1 w-8 h-8 rounded-full bg-ocean-950 border-2 border-gura-cyan flex items-center justify-center group-hover:scale-125 transition duration-300 shadow-lg shadow-cyan-500/50">
+                        <div class="w-3 h-3 rounded-full bg-gura-cyan"></div>
+                    </div>
+                    <span class="sm:absolute sm:-left-32 sm:top-1 font-display font-bold text-xl text-gura-cyan mb-2 inline-block">
+                        2020
+                    </span>
+                    <div class="glass-panel p-6 rounded-2xl space-y-3 hover:border-cyan-400/50 transition">
+                        <h3 class="text-xl font-bold text-white">Debut & Tweet Legendaris "a"</h3>
+                        <p class="text-slate-200 text-sm leading-relaxed">
+                            Gawr Gura meluncurkan channel resminya pada bulan September 2020 sebagai bagian dari Hololive English -Myth-. Hanya dengan satu kata sakti di Twitter ("a") dan suara ramah, ia langsung merebut hati ratusan ribu penonton.
+                        </p>
+                        <div class="flex items-center text-xs text-cyan-300 gap-2 font-mono">
+                            <i class="fa-solid fa-tag"></i>
+                            <span>Milestone: September 13, 2020 Debut Stream</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="relative pl-8 sm:pl-10 group">
+                    <div class="absolute -left-[17px] top-1 w-8 h-8 rounded-full bg-ocean-950 border-2 border-gura-cyan flex items-center justify-center group-hover:scale-125 transition duration-300 shadow-lg shadow-cyan-500/50">
+                        <div class="w-3 h-3 rounded-full bg-gura-cyan"></div>
+                    </div>
+                    <span class="sm:absolute sm:-left-32 sm:top-1 font-display font-bold text-xl text-gura-cyan mb-2 inline-block">
+                        2021
+                    </span>
+                    <div class="glass-panel p-6 rounded-2xl space-y-3 hover:border-cyan-400/50 transition">
+                        <h3 class="text-xl font-bold text-white">Pertumbuhan Eksponensial & Rekor Dunia</h3>
+                        <p class="text-slate-200 text-sm leading-relaxed">
+                            Menjadi VTuber pertama yang menembus angka jutaan subscriber dalam waktu sangat singkat. Pada pertengahan 2021, Gura menjadi VTuber dengan jumlah subscriber terbanyak secara global, merilis lagu orisinal pertamanya "REFLECT".
+                        </p>
+                        <div class="flex items-center text-xs text-cyan-300 gap-2 font-mono">
+                            <i class="fa-solid fa-music"></i>
+                            <span>Music Debut: "REFLECT" Official Release</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="relative pl-8 sm:pl-10 group">
+                    <div class="absolute -left-[17px] top-1 w-8 h-8 rounded-full bg-ocean-950 border-2 border-gura-cyan flex items-center justify-center group-hover:scale-125 transition duration-300 shadow-lg shadow-cyan-500/50">
+                        <div class="w-3 h-3 rounded-full bg-gura-cyan"></div>
+                    </div>
+                    <span class="sm:absolute sm:-left-32 sm:top-1 font-display font-bold text-xl text-gura-cyan mb-2 inline-block">
+                        2022–2024
+                    </span>
+                    <div class="glass-panel p-6 rounded-2xl space-y-3 hover:border-cyan-400/50 transition">
+                        <h3 class="text-xl font-bold text-white">Konser 3D, Kolaborasi & Ekspansi Global</h3>
+                        <p class="text-slate-200 text-sm leading-relaxed">
+                            Penampilan panggung 3D live, partisipasi di Hololive Super Expo, kolaborasi franchise game besar, serta rilis berbagai merchandise resmi. Gura memperkuat posisinya sebagai ikon budaya pop internet.
+                        </p>
+                        <div class="flex items-center text-xs text-cyan-300 gap-2 font-mono">
+                            <i class="fa-solid fa-star"></i>
+                            <span>3D Showcase & Concert Performances</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 4 -->
+                <div class="relative pl-8 sm:pl-10 group">
+                    <div class="absolute -left-[17px] top-1 w-8 h-8 rounded-full bg-ocean-950 border-2 border-gura-cyan flex items-center justify-center group-hover:scale-125 transition duration-300 shadow-lg shadow-cyan-500/50">
+                        <div class="w-3 h-3 rounded-full bg-gura-cyan"></div>
+                    </div>
+                    <span class="sm:absolute sm:-left-32 sm:top-1 font-display font-bold text-xl text-gura-cyan mb-2 inline-block">
+                        Present
+                    </span>
+                    <div class="glass-panel p-6 rounded-2xl space-y-3 hover:border-cyan-400/50 transition">
+                        <h3 class="text-xl font-bold text-white">Menjadi Ikon VTuber Global</h3>
+                        <p class="text-slate-200 text-sm leading-relaxed">
+                            Hingga saat ini, Gura terus menginspirasi banyak kreator konten dan menghibur jutaan Chumbuds melalui stream, musik, dan kehadirannya yang selalu membawa kehangatan.
+                        </p>
+                        <div class="mt-2 p-3 bg-cyan-950/80 rounded-xl border border-cyan-500/20 text-xs text-cyan-200 flex items-start gap-2">
+                            <i class="fa-solid fa-circle-info text-gura-cyan mt-0.5"></i>
+                            <span><em>Catatan Siswa: Data milestone dapat diperbarui secara teratur sesuai pembaruan berita Hololive Official.</em></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: GURA'S WORLD / FAVORITES -->
+    <section id="guras-world" class="relative z-10 py-24 px-4 max-w-7xl mx-auto">
+        <div class="text-center mb-16 space-y-3">
+            <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+                GURA'S <span class="text-gradient">FAVORITES</span>
+            </h2>
+            <p class="text-cyan-200/80 text-sm sm:text-base max-w-xl mx-auto">
+                Hal-hal unik dan kegemaran yang membentuk identitas dunia Gawr Gura.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Card 1: Gaming -->
+            <div class="glass-card p-6 rounded-3xl space-y-4 group">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-cyan-500/30 group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+                <h3 class="text-xl font-display font-bold text-white group-hover:text-gura-cyan transition">🎮 Gaming</h3>
+                <p class="text-slate-200 text-sm leading-relaxed">
+                    Sangat menyukai rhythm game seperti <em>Muse Dash</em> dan <em>Taiko no Tatsujin</em>, game horor (Resident Evil), Minecraft (pembangunan Atlantis), serta game co-op seru bersama member Hololive lainnya.
+                </p>
+            </div>
+
+            <!-- Card 2: Music -->
+            <div class="glass-card p-6 rounded-3xl space-y-4 group">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-cyan-500/30 group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-music"></i>
+                </div>
+                <h3 class="text-xl font-display font-bold text-white group-hover:text-gura-cyan transition">🎵 Music</h3>
+                <p class="text-slate-200 text-sm leading-relaxed">
+                    Memiliki vokal luar biasa yang fleksibel, mulai dari lagu City Pop Jepang klasik (seperti <em>Ride on Time</em>) hingga lagu pop modern dan ballad yang sangat emosional.
+                </p>
+            </div>
+
+            <!-- Card 3: Sharks -->
+            <div class="glass-card p-6 rounded-3xl space-y-4 group">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-cyan-500/30 group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-fish text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-display font-bold text-white group-hover:text-gura-cyan transition">🦈 Sharks</h3>
+                <p class="text-slate-200 text-sm leading-relaxed">
+                    Meskipun mengaku sebagai "Apex Predator", kelakuannya seringkali gemoy dan menggemaskan. Hiu Atlantis ini sangat bangga dengan estetika ekor dan gigi hiunya.
+                </p>
+            </div>
+
+            <!-- Card 4: Ocean -->
+            <div class="glass-card p-6 rounded-3xl space-y-4 group">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-cyan-500/30 group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-water"></i>
+                </div>
+                <h3 class="text-xl font-display font-bold text-white group-hover:text-gura-cyan transition">🌊 Ocean Lore</h3>
+                <p class="text-slate-200 text-sm leading-relaxed">
+                    Tema samudra bawah laut dan mitos Atlantis menjadi pondasi latar belakang karakternya, menciptakan suasana laut dalam yang misterius namun hangat.
+                </p>
+            </div>
+
+            <!-- Card 5: Memes -->
+            <div class="glass-card p-6 rounded-3xl space-y-4 group sm:col-span-2 lg:col-span-1">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-cyan-500/30 group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-face-laugh-beam"></i>
+                </div>
+                <h3 class="text-xl font-display font-bold text-white group-hover:text-gura-cyan transition">😂 Memes & Humor</h3>
+                <p class="text-slate-200 text-sm leading-relaxed">
+                    Terkenal dengan humor spontan, "gura-isms", kebingungan matematika dasar yang kocak, serta interaksi akrab yang menghibur seluruh penonton.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 5: WHY GURA? (Personal Journal) -->
+    <section id="why-gura" class="relative z-10 py-24 px-4">
+        <div class="max-w-4xl mx-auto space-y-10">
+            <div class="text-center space-y-3">
+                <div class="inline-block p-2 rounded-full bg-cyan-500/20 text-gura-cyan text-xs font-semibold uppercase tracking-widest border border-cyan-500/30">
+                    Personal Journal Entry
+                </div>
+                <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+                    WHY <span class="text-gradient">GURA?</span>
+                </h2>
+                <p class="text-cyan-200/80 text-sm sm:text-base">
+                    Alasan Pribadi Pembuat Website Menjadikan Gawr Gura Sumber Inspirasi.
+                </p>
+            </div>
+
+            <div class="journal-box p-6 sm:p-10 rounded-3xl glass-panel space-y-8 shadow-2xl">
+                <blockquote class="text-lg sm:text-xl italic text-cyan-100 font-serif leading-relaxed border-b border-cyan-500/20 pb-6">
+                    "For me, Gura isn't just a VTuber. She is someone whose streams, humor, music, and personality have created countless memorable moments."
+                </blockquote>
+
+                <div class="space-y-6 text-slate-200 text-sm sm:text-base leading-relaxed">
+                    <div>
+                        <h4 class="font-display font-bold text-gura-cyan text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-compass"></i> How I Discovered Gura
+                        </h4>
+                        <p>
+                            Aku pertama kali menemukan video rekomendasi Gawr Gura saat menjelajahi internet di pertengahan masa sekolah. Potongan video saat ia pertama kali menyanyi dan meluncurkan salam "a" membuatku penasaran. Sejak saat itu, stream-nya menjadi teman setia saat mengerjakan tugas sekolah.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-display font-bold text-gura-cyan text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-heart"></i> What I Like About Her
+                        </h4>
+                        <p>
+                            Hal yang paling menyegarkan dari Gura adalah ketulusannya. Ia tidak ragu menjadi dirinya sendiri, tertawa atas kesalahannya sendiri, dan selalu berusaha memberikan performa bernyanyi yang maksimal saat karaoke stream.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-display font-bold text-gura-cyan text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-sparkles"></i> What Makes Her Special
+                        </h4>
+                        <p>
+                            Gura memiliki bakat alami dalam membangun komunitas yang ramah (Chumbuds). Meskipun memiliki jutaan subscriber, ia tetap terasa dekat seperti teman yang mengobrol santai bersama kita.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-display font-bold text-gura-cyan text-base mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb"></i> What I Learned From Her
+                        </h4>
+                        <p>
+                            Dari Gura, aku belajar pentingnya membawa keceriaan ke orang lain dan konsistensi dalam berkarya. Proyek pembuatan website Informatika ini juga terinspirasi dari keinginan untuk mengasah kemampuan pemrograman web sambil mengekspresikan hobi positif.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pt-6 border-t border-cyan-500/20 flex items-center justify-between text-xs text-cyan-300">
+                    <span>Written with 💙 by Student Creator</span>
+                    <span class="font-mono">Informatics Project 2026</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: GALLERY -->
+    <section id="gallery" class="relative z-10 py-24 px-4 max-w-7xl mx-auto">
+        <div class="text-center mb-12 space-y-3">
+            <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+                GURA <span class="text-gradient">GALLERY</span>
+            </h2>
+            <p class="text-cyan-200/80 text-sm sm:text-base max-w-xl mx-auto">
+                Koleksi momen, karya, dan ilustrasi bertema Gawr Gura.
+            </p>
+
+            <!-- Filter Categories Tabs -->
+            <div class="flex flex-wrap items-center justify-center gap-2 pt-6" id="gallery-filters">
+                <button class="gallery-filter-btn active px-5 py-2 rounded-full text-xs sm:text-sm font-semibold bg-gura-cyan text-ocean-950 transition" data-filter="all">ALL</button>
+                <button class="gallery-filter-btn px-5 py-2 rounded-full text-xs sm:text-sm font-semibold glass-card text-slate-300 hover:text-white transition" data-filter="streams">STREAMS</button>
+                <button class="gallery-filter-btn px-5 py-2 rounded-full text-xs sm:text-sm font-semibold glass-card text-slate-300 hover:text-white transition" data-filter="music">MUSIC</button>
+                <button class="gallery-filter-btn px-5 py-2 rounded-full text-xs sm:text-sm font-semibold glass-card text-slate-300 hover:text-white transition" data-filter="memes">MEMES</button>
+                <button class="gallery-filter-btn px-5 py-2 rounded-full text-xs sm:text-sm font-semibold glass-card text-slate-300 hover:text-white transition" data-filter="cute">CUTE</button>
+            </div>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-grid">
+            
+            <div class="gallery-item glass-card rounded-2xl overflow-hidden cursor-pointer group" data-category="music" onclick="openLightbox('REFLECT Music Cover', 'Visual ilustrasi dari lagu orisinal perdana Gawr Gura - REFLECT.', 'https://placehold.co/800x600/0a1733/00f2fe?text=REFLECT+Music+Artwork')">
+                <div class="relative h-64 overflow-hidden bg-ocean-900">
+                    <img src="assets/img/reflect.jpg" alt="REFLECT Artwork" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy" onerror="this.src='https://placehold.co/600x400/0f234d/ffffff?text=Image+Placeholder'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ocean-950 via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-4 left-4 right-4 space-y-1">
+                        <span class="px-2 py-0.5 rounded bg-cyan-500/40 text-cyan-200 text-[10px] font-semibold tracking-wider">MUSIC</span>
+                        <h4 class="text-white font-bold text-lg">REFLECT Single Cover</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-item glass-card rounded-2xl overflow-hidden cursor-pointer group" data-category="streams" onclick="openLightbox('Debut Stream Highlight', 'Momen bersejarah debut stream Hololive EN Myth.', 'https://placehold.co/800x600/0a1733/4facfe?text=Gura+Debut+Stream')">
+                <div class="relative h-64 overflow-hidden bg-ocean-900">
+                    <img src="assets/img/debut.jpg" alt="Debut Stream" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy" onerror="this.src='https://placehold.co/600x400/0f234d/ffffff?text=Image+Placeholder'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ocean-950 via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-4 left-4 right-4 space-y-1">
+                        <span class="px-2 py-0.5 rounded bg-blue-500/40 text-blue-200 text-[10px] font-semibold tracking-wider">STREAMS</span>
+                        <h4 class="text-white font-bold text-lg">The Legendary "a" Debut</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-item glass-card rounded-2xl overflow-hidden cursor-pointer group" data-category="cute" onclick="openLightbox('Chibi Shark Gura', 'Ilustrasi chibi menggemaskan sang hiu Atlantis.', 'https://placehold.co/800x600/0a1733/ffd166?text=Chibi+Gura+Shark')">
+                <div class="relative h-64 overflow-hidden bg-ocean-900">
+                    <img src="assets/img/chibi.png" alt="Chibi Gura" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy" onerror="this.src='https://placehold.co/600x400/0f234d/ffffff?text=Image+Placeholder'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ocean-950 via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-4 left-4 right-4 space-y-1">
+                        <span class="px-2 py-0.5 rounded bg-amber-500/40 text-amber-200 text-[10px] font-semibold tracking-wider">CUTE</span>
+                        <h4 class="text-white font-bold text-lg">Chibi Shark Hoodie</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-item glass-card rounded-2xl overflow-hidden cursor-pointer group" data-category="memes" onclick="openLightbox('Math Master Gura', 'Momen jenaka saat memecahkan teka-teki matematika.', 'https://placehold.co/800x600/0a1733/ff6b8b?text=Math+Meme+Gura')">
+                <div class="relative h-64 overflow-hidden bg-ocean-900">
+                    <img src="assets/img/math.jpg" alt="Math Meme" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy" onerror="this.src='https://placehold.co/600x400/0f234d/ffffff?text=Image+Placeholder'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ocean-950 via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-4 left-4 right-4 space-y-1">
+                        <span class="px-2 py-0.5 rounded bg-pink-500/40 text-pink-200 text-[10px] font-semibold tracking-wider">MEMES</span>
+                        <h4 class="text-white font-bold text-lg">Apex Math Genius</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-item glass-card rounded-2xl overflow-hidden cursor-pointer group" data-category="music" onclick="openLightbox('3D Concert Live Stage', 'Penampilan panggung musik 3D Gawr Gura.', 'https://placehold.co/800x600/0a1733/00f2fe?text=3D+Concert+Stage')">
+                <div class="relative h-64 overflow-hidden bg-ocean-900">
+                    <img src="assets/img/3d.jpg" alt="3D Stage" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy" onerror="this.src='https://placehold.co/600x400/0f234d/ffffff?text=Image+Placeholder'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ocean-950 via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-4 left-4 right-4 space-y-1">
+                        <span class="px-2 py-0.5 rounded bg-cyan-500/40 text-cyan-200 text-[10px] font-semibold tracking-wider">MUSIC</span>
+                        <h4 class="text-white font-bold text-lg">Hololive Stage Showcase</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-item glass-card rounded-2xl overflow-hidden cursor-pointer group" data-category="cute" onclick="openLightbox('Atlantian Trident', 'Trident legendaris senjata utama sang hiu.', 'https://placehold.co/800x600/0a1733/8bbbf5?text=Trident+Artwork')">
+                <div class="relative h-64 overflow-hidden bg-ocean-900">
+                    <img src="assets/img/model.png" alt="Trident Pose" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy" onerror="this.src='https://placehold.co/600x400/0f234d/ffffff?text=Image+Placeholder'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-ocean-950 via-transparent to-transparent opacity-80"></div>
+                    <div class="absolute bottom-4 left-4 right-4 space-y-1">
+                        <span class="px-2 py-0.5 rounded bg-indigo-500/40 text-indigo-200 text-[10px] font-semibold tracking-wider">CUTE</span>
+                        <h4 class="text-white font-bold text-lg">Trident Pose Artwork</h4>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 bg-ocean-950/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="relative max-w-4xl w-full glass-panel rounded-3xl overflow-hidden p-6 space-y-4">
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 text-slate-300 hover:text-white bg-white/10 p-2 rounded-full w-10 h-10 flex items-center justify-center transition" aria-label="Close Preview Modal">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="h-80 sm:h-96 rounded-2xl overflow-hidden bg-black/50 flex items-center justify-center border border-cyan-500/20">
+                <img id="lightbox-img" src="" alt="Enlarged gallery preview" class="max-h-full max-w-full object-contain">
+            </div>
+
+            <div>
+                <h3 id="lightbox-title" class="text-2xl font-bold font-display text-white">Title</h3>
+                <p id="lightbox-desc" class="text-slate-200 text-sm mt-1">Description</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 7: MUSIC PLAYER -->
+    <section id="music" class="relative z-10 py-24 px-4">
+        <div class="max-w-4xl mx-auto space-y-12">
+            <div class="text-center space-y-3">
+                <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+                    GURA'S <span class="text-gradient">MUSIC PLAYER</span>
+                </h2>
+                <p class="text-cyan-200/80 text-sm sm:text-base">
+                    Simulasi audio player interaktif dengan synthesizer audio Web API bawaan.
+                </p>
+            </div>
+
+            <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-cyan-400/30 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                    
+                    <div class="md:col-span-5 flex justify-center">
+                        <div class="relative w-48 h-48 sm:w-60 sm:h-60 rounded-2xl overflow-hidden shadow-2xl border border-cyan-400/30 group">
+                            <img id="player-cover" src="https://placehold.co/400x400/0a1733/00f2fe?text=REFLECT+Album" alt="Album Cover" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition"></div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-7 space-y-6">
+                        <div>
+                            <span class="px-3 py-1 rounded-full bg-cyan-500/20 text-gura-cyan text-xs font-semibold uppercase tracking-wider">
+                                Now Playing
+                            </span>
+                            <h3 id="song-title" class="text-2xl sm:text-3xl font-display font-bold text-white mt-2">
+                                REFLECT (Synth Edition)
+                            </h3>
+                            <p id="artist-name" class="text-cyan-200/90 text-sm font-medium">Gawr Gura • Hololive English</p>
+                        </div>
+
+                        <!-- Simulated Equalizer Visualizer Bars -->
+                        <div class="flex items-end space-x-1.5 h-12 pt-2" id="equalizer-bars">
+                            <div class="eq-bar w-2 bg-gura-cyan/60 rounded-t transition-all duration-200 h-3"></div>
+                            <div class="eq-bar w-2 bg-gura-cyan/60 rounded-t transition-all duration-200 h-6"></div>
+                            <div class="eq-bar w-2 bg-gura-cyan/60 rounded-t transition-all duration-200 h-2"></div>
+                            <div class="eq-bar w-2 bg-gura-cyan/60 rounded-t transition-all duration-200 h-8"></div>
+                            <div class="eq-bar w-2 bg-gura-cyan/60 rounded-t transition-all duration-200 h-4"></div>
+                            <div class="eq-bar w-2 bg-gura-cyan/60 rounded-t transition-all duration-200 h-7"></div>
+                            <div class="eq-bar w-2 bg-gura-cyan/60 rounded-t transition-all duration-200 h-3"></div>
+                            <div class="eq-bar w-2 bg-gura-cyan/60 rounded-t transition-all duration-200 h-5"></div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="space-y-2">
+                            <div class="w-full bg-ocean-950/80 rounded-full h-2 overflow-hidden border border-cyan-500/30 cursor-pointer" id="progress-container">
+                                <div id="progress-bar" class="bg-gradient-to-r from-cyan-400 to-blue-500 h-full w-0 transition-all duration-300"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-slate-300 font-mono">
+                                <span id="current-time">0:00</span>
+                                <span id="duration-time">1:30</span>
+                            </div>
+                        </div>
+
+                        <!-- Controls -->
+                        <div class="flex items-center justify-between pt-2">
+                            <button id="prev-btn" class="text-slate-300 hover:text-gura-cyan text-2xl transition p-2" aria-label="Previous Track">
+                                <i class="fa-solid fa-backward-step"></i>
+                            </button>
+
+                            <button id="play-btn" class="w-16 h-16 rounded-full bg-gradient-to-r from-cyan-400 to-blue-600 text-white text-2xl flex items-center justify-center shadow-lg shadow-cyan-500/40 hover:scale-105 transition" aria-label="Play or Pause Track">
+                                <i class="fa-solid fa-play ml-1" id="play-icon"></i>
+                            </button>
+
+                            <button id="next-btn" class="text-slate-300 hover:text-gura-cyan text-2xl transition p-2" aria-label="Next Track">
+                                <i class="fa-solid fa-forward-step"></i>
+                            </button>
+                        </div>
+
+                        <div class="text-[11px] text-cyan-300/80 text-center font-mono pt-2">
+                            *Web Audio API Synthesizer: Menghasilkan nada melodi synth interaktif langsung dari browser.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8: FUN FACTS -->
+    <section id="fun-facts" class="relative z-10 py-24 px-4 max-w-7xl mx-auto">
+        <div class="text-center mb-16 space-y-3">
+            <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+                FUN <span class="text-gradient">FACTS</span>
+            </h2>
+            <p class="text-cyan-200/80 text-sm sm:text-base max-w-xl mx-auto">
+                Klik kartu di bawah ini untuk membalik dan melihat fakta menarik!
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <div class="flip-card h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner w-full h-full relative rounded-3xl">
+                    <div class="flip-card-front absolute inset-0 glass-panel rounded-3xl p-6 flex flex-col justify-between border border-cyan-400/20">
+                        <div class="w-10 h-10 rounded-full bg-cyan-500/20 text-gura-cyan flex items-center justify-center font-bold">1</div>
+                        <div class="text-center my-auto space-y-2">
+                            <i class="fa-solid fa-quote-right text-4xl text-gura-cyan"></i>
+                            <h3 class="text-2xl font-display font-bold text-white">The Famous "a"</h3>
+                        </div>
+                        <div class="text-right text-xs text-cyan-300 font-medium">Klik untuk balik <i class="fa-solid fa-rotate text-xs ml-1"></i></div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-panel rounded-3xl p-6 flex flex-col justify-between bg-ocean-900 border border-cyan-400/40">
+                        <h4 class="font-bold text-gura-cyan text-lg">Sensasi Satu Huruf</h4>
+                        <p class="text-slate-200 text-xs sm:text-sm leading-relaxed my-auto">
+                            Tweet pertamanya sebelum debut hanya berisi satu huruf "a". Salam pertama saat debut stream juga dimulai dengan kata "a", yang langsung menjadi meme terbesar dalam sejarah VTuber.
+                        </p>
+                        <span class="text-[10px] text-cyan-300/80 font-mono">Fact #1</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner w-full h-full relative rounded-3xl">
+                    <div class="flip-card-front absolute inset-0 glass-panel rounded-3xl p-6 flex flex-col justify-between border border-cyan-400/20">
+                        <div class="w-10 h-10 rounded-full bg-cyan-500/20 text-gura-cyan flex items-center justify-center font-bold">2</div>
+                        <div class="text-center my-auto space-y-2">
+                            <i class="fa-solid fa-shield-halved text-4xl text-gura-cyan"></i>
+                            <h3 class="text-2xl font-display font-bold text-white">Shark Identity</h3>
+                        </div>
+                        <div class="text-right text-xs text-cyan-300 font-medium">Klik untuk balik <i class="fa-solid fa-rotate text-xs ml-1"></i></div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-panel rounded-3xl p-6 flex flex-col justify-between bg-ocean-900 border border-cyan-400/40">
+                        <h4 class="font-bold text-gura-cyan text-lg">Ekor dan Gigi Hiu</h4>
+                        <p class="text-slate-200 text-xs sm:text-sm leading-relaxed my-auto">
+                            Gura seringkali bercanda bahwa ekor hiunya bisa dilepas atau digunakan sebagai bantal. Gigi tajam khas hiu purba juga menjadi ciri estetik utamanya.
+                        </p>
+                        <span class="text-[10px] text-cyan-300/80 font-mono">Fact #2</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner w-full h-full relative rounded-3xl">
+                    <div class="flip-card-front absolute inset-0 glass-panel rounded-3xl p-6 flex flex-col justify-between border border-cyan-400/20">
+                        <div class="w-10 h-10 rounded-full bg-cyan-500/20 text-gura-cyan flex items-center justify-center font-bold">3</div>
+                        <div class="text-center my-auto space-y-2">
+                            <i class="fa-solid fa-water text-4xl text-gura-cyan"></i>
+                            <h3 class="text-2xl font-display font-bold text-white">Atlantis Lore</h3>
+                        </div>
+                        <div class="text-right text-xs text-cyan-300 font-medium">Klik untuk balik <i class="fa-solid fa-rotate text-xs ml-1"></i></div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-panel rounded-3xl p-6 flex flex-col justify-between bg-ocean-900 border border-cyan-400/40">
+                        <h4 class="font-bold text-gura-cyan text-lg">Mengapa Meninggalkan Atlantis?</h4>
+                        <p class="text-slate-200 text-xs sm:text-sm leading-relaxed my-auto">
+                            Menurut kisahnya, kehidupan di dasar laut Atlantis sangat tenang namun agak membosankan. Gura membeli pakaian manusia dan naik ke daratan untuk mencari hiburan!
+                        </p>
+                        <span class="text-[10px] text-cyan-300/80 font-mono">Fact #3</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner w-full h-full relative rounded-3xl">
+                    <div class="flip-card-front absolute inset-0 glass-panel rounded-3xl p-6 flex flex-col justify-between border border-cyan-400/20">
+                        <div class="w-10 h-10 rounded-full bg-cyan-500/20 text-gura-cyan flex items-center justify-center font-bold">4</div>
+                        <div class="text-center my-auto space-y-2">
+                            <i class="fa-solid fa-users text-4xl text-gura-cyan"></i>
+                            <h3 class="text-2xl font-display font-bold text-white">Hololive Myth</h3>
+                        </div>
+                        <div class="text-right text-xs text-cyan-300 font-medium">Klik untuk balik <i class="fa-solid fa-rotate text-xs ml-1"></i></div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-panel rounded-3xl p-6 flex flex-col justify-between bg-ocean-900 border border-cyan-400/40">
+                        <h4 class="font-bold text-gura-cyan text-lg">Ikatan Myth Family</h4>
+                        <p class="text-slate-200 text-xs sm:text-sm leading-relaxed my-auto">
+                            Bersama Calliope, Kiara, Ina, dan Watson, mereka membentuk generasi Hololive English Myth yang legendaris dan membuka jalan bagi VTuber bahasa Inggris secara global.
+                        </p>
+                        <span class="text-[10px] text-cyan-300/80 font-mono">Fact #4</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner w-full h-full relative rounded-3xl">
+                    <div class="flip-card-front absolute inset-0 glass-panel rounded-3xl p-6 flex flex-col justify-between border border-cyan-400/20">
+                        <div class="w-10 h-10 rounded-full bg-cyan-500/20 text-gura-cyan flex items-center justify-center font-bold">5</div>
+                        <div class="text-center my-auto space-y-2">
+                            <i class="fa-solid fa-heart text-4xl text-gura-cyan"></i>
+                            <h3 class="text-2xl font-display font-bold text-white">Chumbuds</h3>
+                        </div>
+                        <div class="text-right text-xs text-cyan-300 font-medium">Klik untuk balik <i class="fa-solid fa-rotate text-xs ml-1"></i></div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-panel rounded-3xl p-6 flex flex-col justify-between bg-ocean-900 border border-cyan-400/40">
+                        <h4 class="font-bold text-gura-cyan text-lg">Penggemar Setia</h4>
+                        <p class="text-slate-200 text-xs sm:text-sm leading-relaxed my-auto">
+                            Nama panggillan untuk penggemarnya adalah "Chumbuds" (dengan maskot hiu kecil bernama 'Bloop'). Mereka terkenal sangat protektif dan antusias mendukung setiap stream Gura.
+                        </p>
+                        <span class="text-[10px] text-cyan-300/80 font-mono">Fact #5</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card h-64 cursor-pointer" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner w-full h-full relative rounded-3xl">
+                    <div class="flip-card-front absolute inset-0 glass-panel rounded-3xl p-6 flex flex-col justify-between border border-cyan-400/20">
+                        <div class="w-10 h-10 rounded-full bg-cyan-500/20 text-gura-cyan flex items-center justify-center font-bold">6</div>
+                        <div class="text-center my-auto space-y-2">
+                            <i class="fa-solid fa-microphone-lines text-4xl text-gura-cyan"></i>
+                            <h3 class="text-2xl font-display font-bold text-white">Musician Shark</h3>
+                        </div>
+                        <div class="text-right text-xs text-cyan-300 font-medium">Klik untuk balik <i class="fa-solid fa-rotate text-xs ml-1"></i></div>
+                    </div>
+                    <div class="flip-card-back absolute inset-0 glass-panel rounded-3xl p-6 flex flex-col justify-between bg-ocean-900 border border-cyan-400/40">
+                        <h4 class="font-bold text-gura-cyan text-lg">Talenta Bermusik</h4>
+                        <p class="text-slate-200 text-xs sm:text-sm leading-relaxed my-auto">
+                            Gura pandai memainkan ukulele dan bernyanyi dalam tempo rhythm game yang sangat cepat tanpa kehilangan pitch nada.
+                        </p>
+                        <span class="text-[10px] text-cyan-300/80 font-mono">Fact #6</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 9: A MESSAGE -->
+    <section id="a-message" class="relative z-10 py-24 px-4 border-t border-cyan-500/10">
+        <div class="max-w-3xl mx-auto text-center space-y-8">
+            <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center text-white text-2xl shadow-xl shadow-cyan-500/30 animate-bounce">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+
+            <div class="space-y-3">
+                <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+                    TO GURA, <span class="text-gradient">FROM A CHUMBUD</span>
+                </h2>
+                <p class="text-cyan-200/80 text-sm sm:text-base">
+                    Pesan apresiasi tenang dari dasar laut untuk Gawr Gura.
+                </p>
+            </div>
+
+            <div class="glass-panel p-8 sm:p-10 rounded-3xl border border-cyan-400/30 text-left space-y-6 shadow-2xl relative">
+                <div class="flex items-center justify-between border-b border-cyan-500/20 pb-4">
+                    <span class="text-xs font-mono text-cyan-300"><i class="fa-solid fa-paper-plane mr-1"></i> Message Draft</span>
+                    <button id="edit-msg-btn" onclick="toggleEditMessage()" class="px-3 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-200 text-xs font-semibold transition">
+                        <i class="fa-solid fa-pen-to-square mr-1"></i> <span id="edit-btn-text">Edit Pesan</span>
+                    </button>
+                </div>
+
+                <div id="message-display" class="text-slate-100 text-base sm:text-lg leading-relaxed font-sans italic space-y-4">
+                    <p id="msg-text-paragraph">
+                        "Thank you for all the laughs, songs, streams, and memories. Your hard work brings happiness to millions of Chumbuds around the world!"
+                    </p>
+                </div>
+
+                <div id="message-editor" class="hidden space-y-3">
+                    <label class="block text-xs font-mono text-cyan-300">Tulis pesan khusus versimu sendiri:</label>
+                    <textarea id="custom-msg-input" class="w-full h-32 p-4 rounded-xl bg-ocean-950 border border-cyan-400/40 text-slate-100 text-sm focus:outline-none focus:border-gura-cyan resize-none">Thank you for all the laughs, songs, streams, and memories. Your hard work brings happiness to millions of Chumbuds around the world!</textarea>
+                </div>
+
+                <div class="pt-4 border-t border-cyan-500/20 flex flex-wrap items-center justify-between text-xs text-slate-300 gap-2">
+                    <span>DOM Interactive Field • High School Informatics Showcase</span>
+                    <span class="text-gura-cyan font-bold">#ChumbudForLife</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="relative z-10 glass-panel border-t border-cyan-500/20 py-10 px-4 text-center">
+        <div class="max-w-7xl mx-auto space-y-4">
+            <div class="flex items-center justify-center space-x-2 text-lg font-display font-bold text-white">
+                <span>Made with 💙 by a Chumbud</span>
+            </div>
+
+            <p class="text-xs text-slate-300 max-w-lg mx-auto leading-relaxed">
+                Fan-made website • Created for an Informatics assignment (Tugas Mata Pelajaran Informatika SMA)
+            </p>
+
+            <div class="text-[11px] text-cyan-300/70 font-mono">
+                © 2026 Gawr Gura Tribute Website. All Hololive English VTuber assets belong to COVER Corp.
+            </div>
+        </div>
+    </footer>
+
+    <!-- External Custom JavaScript -->
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
